@@ -14,32 +14,30 @@
 
 {% block content %}
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
 
-    {% include "govuk-prototype-kit/includes/homepage-top.njk" %}
+    <main id="content" role="main">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full ">
+            
 
-    <h1 class="govuk-heading-xl">
-      {{ serviceName }}
-    </h1>
-
-   {% if data['languagePreference'] != "cy" %}
+            {% if data['languagePreference'] != "cy" %}
             
                 <div>
-                        <p>English content to go here.</p>
+                    <h1 class="govuk-heading-l">How the toggle works<span style="float:right"></span></h1>
+                        <p>When English is selected, all content is in English.</p>
                 </div>  
     
             {% else %}
                 
                 <div>
-                        <p>Welsh content to go here.</p>
+                    <h1 class="govuk-heading-l">Sut mae’r togl yn gweithio<span style="float:right"></span></h1>
+                        <p>Pan ddewisir y Gymraeg, mae’r holl gynnwys yn Gymraeg.</p>
                 </div>
             
             {% endif %}
 
+            </div>
+    </main>
 
-    {% include "govuk-prototype-kit/includes/homepage-bottom.njk" %}
-  </div>
-</div>
 
 {% endblock %}
