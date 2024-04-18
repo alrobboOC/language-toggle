@@ -2,6 +2,16 @@
 
 {% set pageName="Home" %}
 
+{% block beforeContent %}
+    {{
+        hmrcLanguageSelect({
+            language: 'cy' if data['languagePreference'] === 'cy' else 'en',
+            en: { href: '?languagePreference=en' },
+            cy: { href: '?languagePreference=cy' }
+        })
+    }}
+{% endblock %}
+
 {% block content %}
 
 <div class="govuk-grid-row">
@@ -12,6 +22,21 @@
     <h1 class="govuk-heading-xl">
       {{ serviceName }}
     </h1>
+
+   {% if data['languagePreference'] != "cy" %}
+            
+                <div>
+                        <p>English content to go here.</p>
+                </div>  
+    
+            {% else %}
+                
+                <div>
+                        <p>Welsh content to go here.</p>
+                </div>
+            
+            {% endif %}
+
 
     {% include "govuk-prototype-kit/includes/homepage-bottom.njk" %}
   </div>
