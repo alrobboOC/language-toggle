@@ -8,6 +8,10 @@
 - In versions of the toggle available elsewhere, if the English version of a page is displayed and the user clicked Cymraeg on the toggle, the user would be directed to a duplicate of the English page, now showing in Welsh. Therefore two separate versions of the page are needed. Meaning that if there are any design changes, it would need to be made on both pages. If there is a long and complex journey, this could mean alot of extra work to maintain two different journeys.
 - In the feature detailed on this page, the content for both languages can be contained within the same page. This makes it easier for the person building the prototype because they only need to make changes to the design once. 
 
+## How to see the toggle in action
+
+- Go to the index page of this prototype.
+
 ## How to install the Welsh language toggle into your prototype
 
 1. Install the [HMRC Frontend](https://design.tax.service.gov.uk/hmrc-design-patterns/install-hmrc-frontend-in-your-prototype/) into your prototype.
