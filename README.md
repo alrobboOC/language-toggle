@@ -79,7 +79,8 @@ When the toggle is selected between the Welsh and English, the content displayed
 
 2. Go to your routes.js file. After `const router = govukPrototypeKit.requests.setupRouter()`, add:
 
-```// Persist language selection across the prototype
+```
+// Persist language selection across the prototype
 router.use((req, res, next) => {
   req.session.data = req.session.data || {}
 
@@ -107,7 +108,8 @@ router.use((req, res, next) => {
 
 3. Go to layouts/main.html. After `{% extends "govuk-prototype-kit/layouts/govuk-branded.njk" %}` add:
 
-```{% from "hmrc/components/header/macro.njk"  import hmrcHeader %}
+```
+{% from "hmrc/components/header/macro.njk"  import hmrcHeader %}
 {% from "hmrc/components/service-navigation-language-select/macro.njk"  import hmrcServiceNavigationLanguageSelect %}
 
 {% if data['languagePreference'] == 'cy' %}
@@ -136,7 +138,8 @@ router.use((req, res, next) => {
 
 4. Go to the pages you want to toggle between English and Welsh. If you followed the initial steps listed above, removed the below code block. Otherwise skip this step:
 
-```{% block beforeContent %}
+```
+{% block beforeContent %}
   {{
     hmrcLanguageSelect({
       language: 'cy' if data['languagePreference'] === 'cy' else 'en',
@@ -149,7 +152,8 @@ router.use((req, res, next) => {
 
 4. Anywhere you have text which you want to switch between the languages, on any page, wrap your text in if statements. e.g:
 
-```{% if data['languagePreference'] == "cy" %}
+```
+{% if data['languagePreference'] == "cy" %}
   <h1 class="govuk-heading-l">Sut mae’r togl yn gweithio</h1>
   <p>Enter your Welsh language here, eg: Pan ddewisir y Gymraeg, mae’r holl gynnwys yn Gymraeg.</p>
 {% else %}
