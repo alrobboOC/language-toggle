@@ -2,7 +2,9 @@
   "serviceName": "Welsh language toggle",
   "plugins": {
     "govuk-frontend": {
-      "rebrand": true
+      "rebrand": true,
+      "organisation-colours": "new",
+      "suppressed-warnings": ["legacy-organisation-colours"]
     }
   }
 }

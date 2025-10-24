@@ -1,13 +1,24 @@
 {
-  "scripts": {
-    "dev": "govuk-prototype-kit dev",
-    "serve": "govuk-prototype-kit serve",
-    "start": "govuk-prototype-kit start"
+  "name": "language-toggle",
+  "version": "1.0.0",
+  "description": "![A gif showing the language on a GOV.UK style page changing between English and Welsh. A language toggle is in the top right of the page. This swaps the content between English and Welsh.](/docs/Welsh_language_toggle.gif)",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
   },
   "dependencies": {
     "@govuk-prototype-kit/common-templates": "2.0.1",
     "govuk-frontend": "^5.12.0",
     "govuk-prototype-kit": "13.18.1",
     "hmrc-frontend": "^6.97.0"
-  }
+  },
+  "devDependencies": {},
+  "scripts": {
+    "dev": "govuk-prototype-kit dev",
+    "serve": "govuk-prototype-kit serve",
+    "start": "govuk-prototype-kit start"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
