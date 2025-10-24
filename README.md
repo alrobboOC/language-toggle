@@ -68,3 +68,90 @@ When the toggle is selected between the Welsh and English, the content displayed
 ```
 
 6. Remember, you will need to repeat this on every page which you want the content to switch between languages.
+
+## EDIT: dated 24th Oct 2025: If you are using the new Service navigation in your prototype, follow these instructions:
+
+1. Install the [HMRC Frontend](https://design.tax.service.gov.uk/hmrc-design-patterns/install-hmrc-frontend-in-your-prototype/) into your prototype.
+
+2. Go to your routes.js file. After `const router = govukPrototypeKit.requests.setupRouter()`, add:
+
+```// Persist language selection across the prototype
+router.use((req, res, next) => {
+  req.session.data = req.session.data || {}
+
+  // Default to English once per session
+  if (typeof req.session.data.languagePreference === 'undefined') {
+    req.session.data.languagePreference = 'en'
+  }
+
+  // Accept several possible query keys
+  const q =
+    (req.query.languagePreference ||
+     req.query.lang ||
+     req.query.language ||
+     req.query.locale ||
+     '').toString().toLowerCase()
+
+  if (q === 'cy' || q === 'en') {
+    req.session.data.languagePreference = q
+  }
+
+  next()
+})
+```
+
+
+3. Go to layouts/main.html. After `{% extends "govuk-prototype-kit/layouts/govuk-branded.njk" %}` add:
+
+```{% from "hmrc/components/header/macro.njk"  import hmrcHeader %}
+{% from "hmrc/components/service-navigation-language-select/macro.njk"  import hmrcServiceNavigationLanguageSelect %}
+
+{% if data['languagePreference'] == 'cy' %}
+  {% set currentLang = 'cy' %}
+{% else %}
+  {% set currentLang = 'en' %}
+{% endif %}
+
+{% block header %}
+  {{ hmrcHeader({
+    isWelshTranslationAvailable: true,
+    serviceNavigation: {
+      serviceName: "Your service name",
+      classes: 'hmrc-service-navigation--with-language-select',
+      slots: {
+        end: hmrcServiceNavigationLanguageSelect({
+          language: currentLang,
+          en: { href: '?languagePreference=en' },
+          cy: { href: '?languagePreference=cy' }
+        })
+      }
+    }
+  }) }}
+{% endblock %}
+```
+
+4. Go to the pages you want to toggle between English and Welsh. If you followed the initial steps listed above, removed the below code block. Otherwise skip this step:
+
+```{% block beforeContent %}
+  {{
+    hmrcLanguageSelect({
+      language: 'cy' if data['languagePreference'] === 'cy' else 'en',
+      en: { href: '?languagePreference=en' },
+      cy: { href: '?languagePreference=cy' }
+    })
+  }}
+{% endblock %}
+```
+
+4. Anywhere you have text which you want to switch between the languages, on any page, wrap your text in if statements. e.g:
+
+```{% if data['languagePreference'] == "cy" %}
+  <h1 class="govuk-heading-l">Sut mae’r togl yn gweithio</h1>
+  <p>Enter your Welsh language here, eg: Pan ddewisir y Gymraeg, mae’r holl gynnwys yn Gymraeg.</p>
+{% else %}
+  <h1 class="govuk-heading-l">How the toggle works</h1>
+  <p>Enter your English language here, eg: When English is selected, all content is in English.</p>
+{% endif %}
+```
+
+5. Finally, restart your prototype.
