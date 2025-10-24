@@ -1,16 +1,9 @@
+
 {% extends "layouts/main.html" %}
 
 {% set pageName="Home" %}
 
-{% block beforeContent %}
-    {{
-        hmrcLanguageSelect({
-            language: 'cy' if data['languagePreference'] === 'cy' else 'en',
-            en: { href: '?languagePreference=en' },
-            cy: { href: '?languagePreference=cy' }
-        })
-    }}
-{% endblock %}
+
 
 {% block content %}
 

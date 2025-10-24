@@ -7,16 +7,25 @@ https://prototype-kit.service.gov.uk/docs/how-to-use-layouts
 {% from "hmrc/components/header/macro.njk"  import hmrcHeader %}
 {% from "hmrc/components/service-navigation-language-select/macro.njk"  import hmrcServiceNavigationLanguageSelect %}
 
+{% if data['languagePreference'] == 'cy' %}
+  {% set currentLang = 'cy' %}
+{% else %}
+  {% set currentLang = 'en' %}
+{% endif %}
+
 {% block header %}
-    {{ hmrcHeader({
-        serviceNavigation: {
-            serviceName: "Welsh language toggle",
-            classes: 'hmrc-service-navigation--with-language-select',
-            slots: {
-                end: hmrcServiceNavigationLanguageSelect({
-                    language: "en"
-                })
-            }
-        }
-    }) }}
+  {{ hmrcHeader({
+    isWelshTranslationAvailable: true,
+    serviceNavigation: {
+      serviceName: "Welsh language toggle",
+      classes: 'hmrc-service-navigation--with-language-select',
+      slots: {
+        end: hmrcServiceNavigationLanguageSelect({
+          language: currentLang,
+          en: { href: '?languagePreference=en' },
+          cy: { href: '?languagePreference=cy' }
+        })
+      }
+    }
+  }) }}
 {% endblock %}
