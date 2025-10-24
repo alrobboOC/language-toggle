@@ -4,3 +4,19 @@ https://prototype-kit.service.gov.uk/docs/how-to-use-layouts
 #}
 
 {% extends "govuk-prototype-kit/layouts/govuk-branded.njk" %}
+{% from "hmrc/components/header/macro.njk"  import hmrcHeader %}
+{% from "hmrc/components/service-navigation-language-select/macro.njk"  import hmrcServiceNavigationLanguageSelect %}
+
+{% block header %}
+    {{ hmrcHeader({
+        serviceNavigation: {
+            serviceName: "Welsh language toggle",
+            classes: 'hmrc-service-navigation--with-language-select',
+            slots: {
+                end: hmrcServiceNavigationLanguageSelect({
+                    language: "en"
+                })
+            }
+        }
+    }) }}
+{% endblock %}
