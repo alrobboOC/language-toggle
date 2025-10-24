@@ -1,3 +1,8 @@
 {
-  "serviceName": "Service name goes here"
+  "serviceName": "Welsh language toggle",
+  "plugins": {
+    "govuk-frontend": {
+      "rebrand": true
+    }
+  }
 }
