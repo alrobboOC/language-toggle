@@ -1,4 +1,5 @@
 ## Welsh language toggle
+## EDIT 24th Oct 2025. If you are using the new service Navigation component, scroll down to the newly added set of instructions
 
 ![A gif showing the language on a GOV.UK style page changing between English and Welsh. A language toggle is in the top right of the page. This swaps the content between English and Welsh.](/docs/Welsh_language_toggle.gif)
 
@@ -69,7 +70,10 @@ When the toggle is selected between the Welsh and English, the content displayed
 
 6. Remember, you will need to repeat this on every page which you want the content to switch between languages.
 
-## EDIT: dated 24th Oct 2025: If you are using the new Service navigation in your prototype, follow these instructions:
+## EDIT: dated 24th Oct 2025: If you are using the new Service navigation in your prototype, follow these instructions.
+
+![screenshot of a code editor showing Welsh](/docs/Welsh.png)
+![screenshot of a code editor showing English](/docs/English.png)
 
 1. Install the [HMRC Frontend](https://design.tax.service.gov.uk/hmrc-design-patterns/install-hmrc-frontend-in-your-prototype/) into your prototype.
 
