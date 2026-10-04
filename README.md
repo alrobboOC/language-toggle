@@ -1,70 +1,144 @@
-## Welsh language toggle
+# Welsh language toggle
 
-![A gif showing the language on a GOV.UK style page changing between English and Welsh. A language toggle is in the top right of the page. This swaps the content between English and Welsh.](/docs/Welsh_language_toggle.gif)
+This GOV.UK Prototype Kit example lets visitors switch between English and Welsh using the language selector in the service navigation header. Both translations live in the same page template, so you can maintain one set of pages instead of separate English and Welsh journeys.
 
-## Switching Between English and Welsh Languages
+English is the default. Selecting **Cymraeg** changes the page content to Welsh; selecting **English** changes it back. The selected language is stored in the visitor's session and used by other pages that read `data['languagePreference']`.
 
-- The language toggle lets users switch between English and Welsh languages. So if a user selects English, the content displays in English. And if they select Cymraeg, the language displays in Welsh.
-- In versions of the toggle available elsewhere, if the English version of a page is displayed and the user clicked Cymraeg on the toggle, the user would be directed to a duplicate of the English page, now showing in Welsh. Therefore two separate versions of the page are needed. Meaning that if there are any design changes, it would need to be made on both pages. If there is a long and complex journey, this could mean alot of extra work to maintain two different journeys.
-- In the feature detailed on this page, the content for both languages can be contained within the same page. This makes it easier for the person building the prototype because they only need to make changes to the design once. 
+The selector does not translate content automatically. You need to supply both translations in each page. In this example, the home page heading and paragraph change language; the service name and `pageName` remain in English.
 
-## How to see the toggle in action
+## Example screens
 
-- Go to the index page of this prototype.
+English:
 
-## How to install the Welsh language toggle into your prototype
+![The prototype showing English content with the language selector in the service navigation header.](docs/English.png)
 
-1. Install the [HMRC Frontend](https://design.tax.service.gov.uk/hmrc-design-patterns/install-hmrc-frontend-in-your-prototype/) into your prototype.
+Welsh:
 
-2. In your code editor, navigate to the page which you want the toggle on. 
- 
-In the example below, I want the toggle to display on the page called toggle.html
+![The prototype showing Welsh content with the language selector in the service navigation header.](docs/Welsh.png)
 
-![screenshot of a code editor showing the toggle file](/docs/toggle.png)
+## Run the example
 
-3. Within this file, before the ```{% block content %}```, copy and paste the following code:
+From the project folder, run:
 
+```sh
+npm ci
+npm run dev
 ```
-{% block beforeContent %}
-    {{
-        hmrcLanguageSelect({
-            language: 'cy' if data['languagePreference'] === 'cy' else 'en',
+
+Open http://localhost:3000 and use the language selector in the header. The example page is `app/views/index.html`.
+
+This project uses GOV.UK Prototype Kit 13.20.5, GOV.UK Frontend ^6.5.1 and HMRC Frontend ^7.38.0, as declared in `package.json`.
+
+## Add the toggle to another prototype
+
+### 1. Install HMRC Frontend
+
+In a compatible GOV.UK Prototype Kit project, install HMRC Frontend:
+
+```sh
+npm install hmrc-frontend@latest
+```
+
+The `@latest` tag installs the latest published release when you run the command. To update an existing installation later, run the same command again. Commit both `package.json` and `package-lock.json` after installing or updating.
+
+This repository already includes HMRC Frontend. The current header uses `hmrcHeader` and `hmrcServiceNavigationLanguageSelect`, rather than the older `hmrcLanguageSelect` example previously documented here.
+
+### 2. Add the selector to the shared layout
+
+Use the following in `app/views/layouts/main.html`. If your layout already has a custom header, merge these changes into it.
+
+```njk
+{% extends "govuk-prototype-kit/layouts/govuk-branded.njk" %}
+{% from "hmrc/components/header/macro.njk"  import hmrcHeader %}
+{% from "hmrc/components/service-navigation-language-select/macro.njk"  import hmrcServiceNavigationLanguageSelect %}
+
+{% if data['languagePreference'] == 'cy' %}
+  {% set currentLang = 'cy' %}
+{% else %}
+  {% set currentLang = 'en' %}
+{% endif %}
+
+{% block header %}
+  {{ hmrcHeader({
+    isWelshTranslationAvailable: true,
+    serviceNavigation: {
+      serviceName: "Welsh language toggle",
+      classes: 'hmrc-service-navigation--with-language-select',
+      slots: {
+        end: {
+          html: hmrcServiceNavigationLanguageSelect({
+            language: currentLang,
             en: { href: '?languagePreference=en' },
             cy: { href: '?languagePreference=cy' }
-        })
-    }}
+          })
+        }
+      }
+    }
+  }) }}
 {% endblock %}
 ```
 
-like this:
+Change `serviceName` to your own service name. The selector links reload the current page with `?languagePreference=en` or `?languagePreference=cy`. This layout puts the selector in the header for every page that extends it; you do not need to add a separate `beforeContent` block to each page.
 
-![screenshot of a code editor showing the copied code](/docs/content.png)
+### 3. Remember the selected language
 
-4. For any content which you want users to be able to switch between English and Welsh, it needs to be contained within an if statement. Here is an example:
+In `app/routes.js`, after setting up the router and before adding your own routes, include this middleware:
 
-![screenshot of a code editor showing the if statement code](/docs/if.png)
+```js
+const govukPrototypeKit = require('govuk-prototype-kit')
+const router = govukPrototypeKit.requests.setupRouter()
 
-5. Therefore, copy the following code anywhere you need the content to be able to switch between the two languages. 
+// Persist language selection across the prototype
+router.use((req, res, next) => {
+  req.session.data = req.session.data || {}
 
-The text within the first set of p brackets should be in the first language you wish to display on the page. In this case, English. The text within the second set of p brackets should be in the second language you wish to display on the same page. In this case, Welsh. 
+  // Default to English once per session
+  if (typeof req.session.data.languagePreference === 'undefined') {
+    req.session.data.languagePreference = 'en'
+  }
 
-When the toggle is selected between the Welsh and English, the content displayed should switch between Welsh and English content.
+  // Accept several possible query keys (header macro may use ?lang=cy)
+  const q =
+    (req.query.languagePreference ||
+     req.query.lang ||
+     req.query.language ||
+     req.query.locale ||
+     '').toString().toLowerCase()
 
+  if (q === 'cy' || q === 'en') {
+    req.session.data.languagePreference = q
+  }
+
+  next()
+})
 ```
-   {% if data['languagePreference'] != "cy" %}
-            
-                <div>
-                        <p>English content to go here.</p>
-                </div>  
-    
-            {% else %}
-                
-                <div>
-                        <p>Welsh content to go here.</p>
-                </div>
-            
-            {% endif %}
 
+If your routes file already sets up `govukPrototypeKit` and `router`, keep those declarations once and add only the `router.use(...)` block.
+
+The middleware defaults the session to English and accepts `en` or `cy` from the query parameters `languagePreference`, `lang`, `language` or `locale`. The header in this prototype uses `languagePreference`. Other values do not change the stored preference.
+
+### 4. Supply English and Welsh content in each page
+
+Pages should extend the shared layout and use `data['languagePreference']` to select the content. For example:
+
+```njk
+{% extends "layouts/main.html" %}
+
+{% set pageName="Home" %}
+
+{% block content %}
+  {% if data['languagePreference'] != "cy" %}
+    <h1 class="govuk-heading-l">How the toggle works</h1>
+    <p>When English is selected, all content is in English.</p>
+  {% else %}
+    <h1 class="govuk-heading-l">Sut mae’r togl yn gweithio</h1>
+    <p>Pan ddewisir y Gymraeg, mae’r holl gynnwys yn Gymraeg.</p>
+  {% endif %}
+{% endblock %}
 ```
 
-6. Remember, you will need to repeat this on every page which you want the content to switch between languages.
+The conditional content in the example page:
+
+![Code using languagePreference to choose between English and Welsh headings and paragraphs.](docs/if.png)
+
+Repeat the content condition wherever you need translated text, including other pages. The header selector is shared, but each page must provide its own translations. Translate page titles, service names and other interface text too if you need a fully bilingual journey.
