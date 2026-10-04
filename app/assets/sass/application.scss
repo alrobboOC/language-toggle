@@ -4,3 +4,110 @@
 // 
 
 // Add extra styles here
+
+.council-tax-estimate {
+  .estimate-address {
+    margin-bottom: 30px;
+    font-size: 36px;
+    line-height: 1.25;
+  }
+
+  .govuk-inset-text {
+    margin-top: 20px;
+    margin-bottom: 25px;
+  }
+
+  .estimate-discounts {
+    margin-bottom: 25px;
+  }
+
+  .estimate-summary {
+    margin-bottom: 35px;
+  }
+
+  .govuk-summary-list__key {
+    width: 43%;
+  }
+
+  .estimate-print {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    padding: 0;
+    border: 0;
+    background: none;
+    margin-bottom: 0;
+    cursor: pointer;
+    color: #1d70b8;
+
+    &:hover {
+      color: #003078;
+    }
+
+    &:focus {
+      color: #0b0c0c;
+    }
+
+    svg {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      color: #505a5f;
+    }
+  }
+
+  .estimate-bottom-rule {
+    margin-top: 40px;
+    border-bottom: 5px solid #1d70b8;
+  }
+}
+
+.council-tax-estimate--welsh {
+  .govuk-grid-column-two-thirds {
+    width: 590px;
+    max-width: 100%;
+  }
+
+  .govuk-caption-l {
+    font-size: 22px;
+    line-height: 1.3;
+    margin-bottom: 0;
+  }
+
+  .estimate-address {
+    font-size: 34px;
+    line-height: 1.3;
+    margin-bottom: 24px;
+  }
+
+  .estimate-summary {
+    width: 520px;
+    max-width: 100%;
+    margin-left: 6px;
+    margin-bottom: 30px;
+  }
+
+  .govuk-summary-list__key {
+    width: 44%;
+  }
+
+  .estimate-print {
+    margin-left: 6px;
+  }
+}
+
+@media (max-width: 40.0625em) {
+  .council-tax-estimate .estimate-address { font-size: 28px; }
+  .council-tax-estimate--welsh .govuk-caption-l { font-size: 18px; }
+  .estimate-welsh-break { display: none; }
+  .council-tax-estimate--welsh .estimate-summary {
+    width: 100%;
+    margin-left: 0;
+  }
+}
+
+@media print {
+  .govuk-header, .govuk-service-navigation, .govuk-footer,
+  .govuk-skip-link, .estimate-print, .estimate-bottom-rule { display: none !important; }
+  .council-tax-estimate .govuk-grid-column-two-thirds { width: 100%; }
+}

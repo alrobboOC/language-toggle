@@ -1,0 +1,50 @@
+{% extends "layouts/main.html" %}
+
+{% set isWelsh = data['languagePreference'] == 'cy' %}
+{% set htmlLang = 'cy' if isWelsh else 'en' %}
+{% set pageName = 'Amcangyfrif eich bil Treth Cyngor yn y dyfodol' if isWelsh else 'Estimate your future Council Tax bill' %}
+
+{% block beforeContent %}
+  <a href="/?languagePreference={{ htmlLang }}" class="govuk-back-link">{{ 'Yn ôl' if isWelsh else 'Back' }}</a>
+{% endblock %}
+
+{% block content %}
+<div class="council-tax-estimate{% if isWelsh %} council-tax-estimate--welsh{% endif %}">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <span class="govuk-caption-l">{{ pageName }}</span>
+      <h1 class="govuk-heading-xl estimate-address">ADDRESS<br>2ND LINE OF ADDRESS</h1>
+
+      {% if isWelsh %}
+        <p class="govuk-body">Dyma’ch bil blynyddol amcangyfrifedig ar gyfer eich band Treth Cyngor yn 2025.</p>
+        <div class="govuk-inset-text">Nid dyma’ch bil go iawn. Mae’n seiliedig ar yr ardrethi Treth Gyngor presennol a gallent newid ar 1 Ebrill 2025.</div>
+        <p class="govuk-body estimate-discounts">Nid yw’r amcangyfrif hwn yn cynnwys unrhyw ostyngiadau a gewch.<br class="estimate-welsh-break">I wirio os ydych yn gymwys am unrhyw ostyngiadau, <a class="govuk-link" href="https://www.gov.uk/find-local-council">ewch i wefan eich awdurdod lleol</a>.</p>
+      {% else %}
+        <p class="govuk-body">This is your estimated annual bill for your 2025 Council Tax band.</p>
+        <div class="govuk-inset-text">This is not your actual bill. It is based on the current Council Tax rates and may change on 1st April 2025.</div>
+        <p class="govuk-body estimate-discounts">This estimate does not include any discounts you get. To check if you're eligible for any discounts, <a class="govuk-link" href="https://www.gov.uk/find-local-council">go to your local authority website</a>.</p>
+      {% endif %}
+
+      <dl class="govuk-summary-list estimate-summary">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">{% if isWelsh %}Amcangyfrif ar gyfer<br>2025{% else %}Estimate for 2025{% endif %}</dt>
+          <dd class="govuk-summary-list__value">£1,234.56</dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">{{ 'Band Treth Gyngor' if isWelsh else 'Council Tax band' }}</dt>
+          <dd class="govuk-summary-list__value">Z</dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">{{ 'Awdurdod Lleol' if isWelsh else 'Local Authority' }}</dt>
+          <dd class="govuk-summary-list__value"><a class="govuk-link" href="https://www.gov.uk/find-local-council">Insert L A name</a></dd>
+        </div>
+      </dl>
+
+      <button type="button" class="estimate-print govuk-body govuk-link" data-print-page>
+        <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M6 2h12v5h2a2 2 0 0 1 2 2v9h-4v4H6v-4H2V9a2 2 0 0 1 2-2h2V2zm2 2v3h8V4H8zm0 11v5h8v-5H8zm10-5v2h2v-2h-2zM4 9v7h2v-3h12v3h2V9H4z"/></svg>
+        {{ 'Argraffu’r dudalen hon' if isWelsh else 'Print this page' }}
+      </button>
+    </div>
+  </div>
+</div>
+{% endblock %}
