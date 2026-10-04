@@ -2,21 +2,21 @@
 
 This GOV.UK Prototype Kit example lets visitors switch between English and Welsh using the language selector in the service navigation header. Both translations live in the same page template, so you can maintain one set of pages instead of separate English and Welsh journeys.
 
+![The English prototype showing the GOV.UK header, ENG and CYM language selector, and “How the toggle works” heading.](docs/English.png)
+
 English is the default. Selecting **Cymraeg** changes the page content to Welsh; selecting **English** changes it back. The selected language is stored in the visitor's session and used by other pages that read `data['languagePreference']`.
 
 The selector does not translate content automatically. You need to supply both translations in each page. In this example, the home page heading and paragraph change language; the service name and `pageName` remain in English.
 
 ## Example screens
 
-English:
-
-![The prototype showing English content with the language selector in the service navigation header.](docs/English.png)
-
-Welsh:
+The English view is shown above. Selecting Welsh changes the page content:
 
 ![The prototype showing Welsh content with the language selector in the service navigation header.](docs/Welsh.png)
 
 ## Run the example
+
+Use Node.js 24 LTS. If you use nvm, run `nvm install` and `nvm use` in the project folder to select the version in `.nvmrc`.
 
 From the project folder, run:
 
@@ -25,9 +25,11 @@ npm ci
 npm run dev
 ```
 
-Open http://localhost:3000 and use the language selector in the header. The example page is `app/views/index.html`.
+Open <http://localhost:3000> and use the language selector in the header. The example page is `app/views/index.html`.
 
 This project uses GOV.UK Prototype Kit 13.20.5, GOV.UK Frontend ^6.5.1 and HMRC Frontend ^7.38.0, as declared in `package.json`.
+
+The `qs` override in `package.json` applies a compatible security fix to the Prototype Kit's Express dependencies. Review this override when upgrading the Kit. Other audit findings remain in the Kit's dependency tree; its bundled shrinkwrap prevents some patch overrides from surviving a clean install.
 
 ## Add the toggle to another prototype
 

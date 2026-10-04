@@ -1,6 +1,9 @@
 {
   "name": "language-toggle",
   "version": "1.0.0",
+  "engines": {
+    "node": "24.x"
+  },
   "description": "![A gif showing the language on a GOV.UK style page changing between English and Welsh. A language toggle is in the top right of the page. This swaps the content between English and Welsh.](/docs/Welsh_language_toggle.gif)",
   "main": "index.js",
   "directories": {
@@ -13,6 +16,11 @@
     "hmrc-frontend": "^7.38.0"
   },
   "devDependencies": {},
+  "overrides": {
+    "govuk-prototype-kit": {
+      "qs": "6.16.0"
+    }
+  },
   "scripts": {
     "dev": "govuk-prototype-kit dev",
     "serve": "govuk-prototype-kit serve",
